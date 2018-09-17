@@ -5,9 +5,11 @@ from bs4 import BeautifulSoup
 import matplotlib.pyplot as plt
 
 class Disco():
-    def __init__(self, artist, website_url):
-        disco_soup = self.get_disco_soup(artist, website_url)
-        album_urls = self.get_album_urls(disco_soup, website_url)
+    def __init__(self, artist):
+        self.website_url = "https://en.wikipedia.org"
+
+        disco_soup = self.get_disco_soup(artist)
+        album_urls = self.get_album_urls(disco_soup)
         self.display_track_stats(artist, album_urls)
 
     def get_soup(self, url):
@@ -15,17 +17,17 @@ class Disco():
         soup = BeautifulSoup(html.content, "html.parser")
         return soup
 
-    def get_disco_soup(self, artist, website_url):
+    def get_disco_soup(self, artist):
         artist = '_'.join(artist.split(' '))
-        disco_url = "%s/wiki/%s_discography" % (website_url, artist)
+        disco_url = "%s/wiki/%s_discography" % (self.website_url, artist)
         disco_soup = self.get_soup(disco_url)
         return disco_soup
 
-    def get_album_urls(self, disco_soup, website_url):
+    def get_album_urls(self, disco_soup):
         album_urls = []
         table = disco_soup.find("table", {"class" : "wikitable plainrowheaders"})
         for th in table.find_all("th", {"scope" : "row"}):
-            album_urls.append(website_url + th.find("i").find("a")["href"])
+            album_urls.append(self.website_url + th.find("i").find("a")["href"])
         return album_urls
 
     def get_track_lengths(self, album_urls):
@@ -76,12 +78,9 @@ class Disco():
         return "%s:%s" % (minutes, seconds)
 
 if __name__ == '__main__':
-    website_url = "https://en.wikipedia.org"
-    artist = "Bon Iver"
-
     if len(sys.argv) == 1:
         artist = "Bon Iver"
     else:
         artist = ' '.join(sys.argv[1:])
 
-    Disco(artist, website_url)
+    Disco(artist)
