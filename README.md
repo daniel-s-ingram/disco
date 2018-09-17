@@ -1,5 +1,5 @@
-# disco
-Displays statistics about a band's discography. This is a project to teach myself web scraping with BeautifulSoup and requests.
+# disco: Project to learn BeautifulSoup and requests
+Displays statistics about a band's discography. Currently only extracts info about studio albums. 
 
 To install the required libraries:
 
