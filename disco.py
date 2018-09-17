@@ -22,10 +22,6 @@ def get_album_links(disco_soup):
         album_urls.append(website_url + th.find("i").find("a")["href"])
     return album_urls
 
-def get_album_soup(album_url):
-    album_html = requests.get(album_url)
-    album_soup = BeautifulSoup(album_html.content, "html_parser")
-
 def get_track_lengths(album_urls):
     track_lengths = {}
     for album_url in album_urls:
